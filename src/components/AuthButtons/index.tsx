@@ -1,19 +1,36 @@
+import { signIn } from "next-auth/react";
 import { AuthButton, Container } from "./styles";
+import { useRouter } from "next/router";
 
-export const AuthButtons = () => {
+type AuthButtonsProps = {
+  callbackUrl?: string;
+};
+
+export const AuthButtons = ({ callbackUrl = "/" }: AuthButtonsProps) => {
+  const router = useRouter();
+  const handleSignIn = (provider?: string) => {
+    if (!provider) {
+      router.push(callbackUrl);
+      return;
+    }
+    signIn(provider, {
+      callbackUrl,
+    });
+  };
+
   return (
     <Container>
-      <AuthButton>
+      <AuthButton onClick={() => handleSignIn("google")}>
         <img src="/images/icons/google.svg" alt="Google Logo" />
         Entrar com Google
       </AuthButton>
 
-      <AuthButton>
+      <AuthButton onClick={() => handleSignIn("github")}>
         <img src="/images/icons/github.svg" alt="Github Logo" />
         Entrar com Github
       </AuthButton>
 
-      <AuthButton>
+      <AuthButton onClick={() => handleSignIn()}>
         <img src="/images/icons/rocket.svg" alt="Rocket Icon" />
         Entrar como visitante
       </AuthButton>
