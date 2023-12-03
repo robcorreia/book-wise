@@ -11,5 +11,5 @@ type BookCardProps = {
 };
 
 export const BookCard = ({ book, size = "md" }: BookCardProps) => {
-  return <Container>book</Container>;
+  return <Container></Container>;
 };
