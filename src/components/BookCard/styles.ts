@@ -1,5 +1,6 @@
 import { styled } from "@stitches/react";
 import Image from "next/image";
+import { Heading } from "../Typography";
 
 export const Container = styled("div", {
   display: "flex",
@@ -18,4 +19,18 @@ export const Container = styled("div", {
 export const BookImage = styled(Image, {
   borderRadius: 4,
   objectFit: "cover",
+});
+
+export const BookDetails = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+});
+
+export const BookName = styled(Heading, {
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  display: "-webkit-box",
+  "-webkit-line-clamp": 2,
+  "-webkit-box-orient": "vertical",
 });

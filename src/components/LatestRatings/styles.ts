@@ -5,12 +5,13 @@ export const Container = styled("div", {
   height: "100%",
   display: "flex",
   flexDirection: "column",
-  overflow: "auto",
+  overflowY: "auto",
   paddingBottom: 40,
 
-  "&::webkit-scrollbar": {
-    display: "none`",
+  "&::-webkit-scrollbar": {
+    display: "none",
   },
+
   "> section": {
     display: "flex",
     flexDirection: "column",
