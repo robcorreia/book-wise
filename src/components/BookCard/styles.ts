@@ -1,15 +1,18 @@
-import { styled } from "@stitches/react";
 import Image from "next/image";
+import { styled } from "../../../stitches.config";
 import { Heading } from "../Typography";
 
 export const Container = styled("div", {
   display: "flex",
   gap: "$5",
   padding: "18px $5",
+  background: "$gray700",
   borderRadius: 8,
   cursor: "pointer",
   border: "1px solid $gray700",
   transition: "0.2s",
+  position: "relative",
+  overflow: "hidden",
 
   "&:hover": {
     borderColor: "$gray600",

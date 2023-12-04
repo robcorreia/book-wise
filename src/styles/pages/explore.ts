@@ -1,4 +1,4 @@
-import { styled } from "@stitches/react";
+import { styled } from "../../../stitches.config";
 
 export const ExploreContainer = styled("section", {
   width: "100%",
@@ -9,7 +9,6 @@ export const ExploreContainer = styled("section", {
 
   "> header": {
     display: "flex",
-    alignItems: "center",
     justifyContent: "space-between",
   },
 });
@@ -25,8 +24,8 @@ export const TagsContainer = styled("div", {
 export const BooksGrid = styled("div", {
   display: "grid",
   height: "100%",
-  gridTemplateColumns: "reapeat(3, 1fr)",
-  gridAutoColumns: 188,
+  gridTemplateColumns: "repeat(3, 1fr)",
+  gridAutoRows: 188,
   gap: "$5",
   overflowY: "auto",
   paddingBottom: 40,
