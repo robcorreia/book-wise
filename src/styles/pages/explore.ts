@@ -21,3 +21,17 @@ export const TagsContainer = styled("div", {
   marginTop: 40,
   marginBottom: 48,
 });
+
+export const BooksGrid = styled("div", {
+  display: "grid",
+  height: "100%",
+  gridTemplateColumns: "reapeat(3, 1fr)",
+  gridAutoColumns: 188,
+  gap: "$5",
+  overflowY: "auto",
+  paddingBottom: 40,
+
+  "&::-webkit-scrollbar": {
+    display: "none",
+  },
+});
