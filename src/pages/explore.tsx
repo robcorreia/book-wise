@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { ExploreContainer } from "@/styles/pages/explore";
+import { ExploreContainer, TagsContainer } from "@/styles/pages/explore";
 import { NextPageWithLayout } from "./_app";
 import { DefaultLayout } from "@/layouts/DefaultLayout";
 import { PageTitle } from "@/components/PageTitle";
 import { Binoculars } from "@phosphor-icons/react/dist/ssr";
 import { Input } from "@/components/ui/Form/Input";
 import { MagnifyingGlass } from "@phosphor-icons/react";
+import { Tag } from "@/components/ui/Tag";
 
 const ExplorePage: NextPageWithLayout = () => {
   const [search, setSearch] = useState("");
@@ -22,6 +23,11 @@ const ExplorePage: NextPageWithLayout = () => {
           onChange={({ target }) => setSearch(target.value)}
         />
       </header>
+
+      <TagsContainer>
+        <Tag active>Todos</Tag>
+        <Tag>Computação</Tag>
+      </TagsContainer>
     </ExploreContainer>
   );
 };

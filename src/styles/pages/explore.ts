@@ -13,3 +13,11 @@ export const ExploreContainer = styled("section", {
     justifyContent: "space-between",
   },
 });
+
+export const TagsContainer = styled("div", {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "$3",
+  marginTop: 40,
+  marginBottom: 48,
+});
