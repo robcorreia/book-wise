@@ -1,6 +1,7 @@
 import { Book } from "@prisma/client";
 import { BookDetails, BookImage, BookName, Container } from "./styles";
 import { Text } from "../Typography";
+import { RatingStars } from "../RatingStars";
 
 export type BookWithAvgRating = Book & {
   avgRating: number;
@@ -42,6 +43,8 @@ export const BookCard = ({ book, size = "md" }: BookCardProps) => {
             {book.author}
           </Text>
         </div>
+
+        <RatingStars rating={book.avgRating} />
       </BookDetails>
     </Container>
   );

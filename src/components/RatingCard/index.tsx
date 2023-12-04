@@ -60,25 +60,24 @@ export const RatingCard = ({ rating }: RatingCardProps) => {
             src={rating.book.cover_url}
           />
         </Link>
-      </BookDetails>
+        <BookContent>
+          <div>
+            <Heading size="xs">{rating.book.name}</Heading>
+            <Text size="sm" color="gray-400">
+              {rating.book.author}
+            </Text>
+          </div>
 
-      <BookContent>
-        <div>
-          <Heading size="xs">{rating.book.name}</Heading>
-          <Text size="sm" color="gray-400">
-            {rating.book.author}
+          <Text size="sm" color="gray-300" css={{ marginTop: "$5" }}>
+            {bookSummary}
+            {rating.book.summary.length > MAX_SUMMARY_LENGTH && (
+              <ToggleShowMoreButton onClick={toggleShowMore}>
+                {isShowingMore ? "ver menos" : "ver mais"}
+              </ToggleShowMoreButton>
+            )}
           </Text>
-        </div>
-
-        <Text size="sm" color="gray-300" css={{ marginTop: "$5" }}>
-          {bookSummary}
-          {rating.book.summary.length > MAX_SUMMARY_LENGTH && (
-            <ToggleShowMoreButton onClick={toggleShowMore}>
-              {isShowingMore ? "ver menos" : "ver mais"}
-            </ToggleShowMoreButton>
-          )}
-        </Text>
-      </BookContent>
+        </BookContent>
+      </BookDetails>
     </Container>
   );
 };
