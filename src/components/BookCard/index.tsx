@@ -8,6 +8,7 @@ import {
 } from "./styles";
 import { Text } from "../Typography";
 import { RatingStars } from "../RatingStars";
+import { RatingsDialog } from "../RatingsDialog";
 
 export type BookWithAvgRating = Book & {
   avgRating: number;
@@ -34,27 +35,29 @@ export const BookCard = ({ book, size = "md" }: BookCardProps) => {
   const currentSize = IMAGE_SIZES[size];
 
   return (
-    <Container>
-      {book?.alreadyRead && <ReadBadge>Lido</ReadBadge>}
+    <RatingsDialog>
+      <Container>
+        {book?.alreadyRead && <ReadBadge>Lido</ReadBadge>}
 
-      <BookImage
-        width={currentSize.width}
-        height={currentSize.height}
-        alt={book.name}
-        src={book.cover_url}
-        css={{ minWidth: currentSize.width }}
-      />
+        <BookImage
+          width={currentSize.width}
+          height={currentSize.height}
+          alt={book.name}
+          src={book.cover_url}
+          css={{ minWidth: currentSize.width }}
+        />
 
-      <BookDetails>
-        <div>
-          <BookName size="xs">{book.name}</BookName>
-          <Text size="sm" color="gray-400">
-            {book.author}
-          </Text>
-        </div>
+        <BookDetails>
+          <div>
+            <BookName size="xs">{book.name}</BookName>
+            <Text size="sm" color="gray-400">
+              {book.author}
+            </Text>
+          </div>
 
-        <RatingStars rating={book.avgRating} />
-      </BookDetails>
-    </Container>
+          <RatingStars rating={book.avgRating} />
+        </BookDetails>
+      </Container>
+    </RatingsDialog>
   );
 };
