@@ -1,13 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import React, { ReactNode } from "react";
-import {
-  BookDetailsContainer,
-  BookDetailsWrapper,
-  BookInfos,
-  DialogClose,
-  DialogContent,
-  DialogOverlay,
-} from "./styles";
+import React, { ReactNode, useState } from "react";
 import { BookOpen, X } from "@phosphor-icons/react";
 import { BookImage } from "../BookCard/styles";
 import { BookContent } from "../RatingCard/styles";
@@ -16,14 +8,54 @@ import { RatingStars } from "../RatingStars";
 import { BookInfo } from "./BookInfo";
 import { BookmarkSimple } from "@phosphor-icons/react/dist/ssr";
 import { BookRatings } from "../BookRatings";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "@/lib/axios";
+import {
+  BookDetailsContainer,
+  BookDetailsWrapper,
+  BookInfos,
+  DialogClose,
+  DialogContent,
+  DialogOverlay,
+} from "./styles";
+import { BookWithAvgRating } from "../BookCard";
+import { RatingWithAuthor } from "../UserRatingCard";
+import { CategoriesOnBooks, Category } from "@prisma/client";
+
+type BookDetails = BookWithAvgRating & {
+  ratings: RatingWithAuthor[];
+  categories: CategoriesOnBooks & {
+    category: Category;
+  };
+};
 
 type RatingsDialogProps = {
   children: ReactNode;
+  bookId: string;
 };
 
-export const RatingsDialog = ({ children }: RatingsDialogProps) => {
+export const RatingsDialog = ({ bookId, children }: RatingsDialogProps) => {
+  const [open, setOpen] = useState(false);
+
+  const { data: book } = useQuery<BookDetails>(
+    ["book", bookId],
+    async () => {
+      const { data } = await api.get(`/books/details/${bookId}`);
+      return data?.book ?? {};
+    },
+    {
+      enabled: open,
+    }
+  );
+
+  const ratingsLength = book?.ratings?.length ?? 0;
+
+  const categories =
+    book?.categories?.map((x) => x?.category?.name)?.join(", ") ?? "";
+  console.log(categories);
+
   return (
-    <Dialog.Root>
+    <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
 
       <Dialog.Portal>
@@ -33,41 +65,56 @@ export const RatingsDialog = ({ children }: RatingsDialogProps) => {
             <X size={24} />
           </DialogClose>
 
-          <BookDetailsWrapper>
-            <BookDetailsContainer>
-              <BookImage
-                width={171}
-                height={242}
-                alt="Book name"
-                src="https://avatars.githubusercontent.com/u/29904660?s=400&u=7e7996446fddba3e6db4c96dab29d56287ae1c30&v=4"
-              />
-              <BookContent>
-                <div>
-                  <Heading size="sm">Book Name</Heading>
-                  <Text color="gray-300" css={{ marginTop: "$2" }}>
-                    Joe Doe
-                  </Text>
-                </div>
+          {!book ? (
+            <p>Carregando....</p>
+          ) : (
+            <>
+              <BookDetailsWrapper>
+                <BookDetailsContainer>
+                  <BookImage
+                    width={171}
+                    height={242}
+                    alt={book?.name}
+                    src={book?.cover_url}
+                  />
+                  <BookContent>
+                    <div>
+                      <Heading size="sm">{book.name}</Heading>
+                      <Text color="gray-300" css={{ marginTop: "$2" }}>
+                        {book.author}
+                      </Text>
+                    </div>
 
-                <div>
-                  <RatingStars rating={4} size="md" />
-                  <Text color="gray-400" size="sm" css={{ marginTop: "$1" }}>
-                    2 avaliações
-                  </Text>
-                </div>
-              </BookContent>
-            </BookDetailsContainer>
+                    <div>
+                      <RatingStars rating={4} size="md" />
+                      <Text
+                        color="gray-400"
+                        size="sm"
+                        css={{ marginTop: "$1" }}
+                      >
+                        {ratingsLength}{" "}
+                        {ratingsLength === 1 ? "avaliação" : "avaliações"}
+                      </Text>
+                    </div>
+                  </BookContent>
+                </BookDetailsContainer>
 
-            <BookInfos>
-              <BookInfo
-                icon={<BookmarkSimple />}
-                title="Categorias"
-                info="Ficção, Ação"
-              />
-              <BookInfo icon={<BookOpen />} title="Páginas" info="217" />
-            </BookInfos>
-          </BookDetailsWrapper>
-          <BookRatings></BookRatings>
+                <BookInfos>
+                  <BookInfo
+                    icon={<BookmarkSimple />}
+                    title="Categorias"
+                    info={categories}
+                  />
+                  <BookInfo
+                    icon={<BookOpen />}
+                    title="Páginas"
+                    info={String(book.total_pages)}
+                  />
+                </BookInfos>
+              </BookDetailsWrapper>
+              <BookRatings ratings={book.ratings} />
+            </>
+          )}
         </DialogContent>
       </Dialog.Portal>
     </Dialog.Root>
