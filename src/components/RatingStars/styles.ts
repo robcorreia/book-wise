@@ -1,4 +1,4 @@
-import { styled } from "@stitches/react";
+import { styled } from "../../../stitches.config";
 
 export const Container = styled("div", {
   display: "flex",
@@ -30,9 +30,11 @@ export const Container = styled("div", {
         },
       },
       lg: {
-        padding: "0 2px",
-        width: 24,
-        height: 24,
+        svg: {
+          padding: "0 2px",
+          width: 24,
+          height: 24,
+        },
       },
     },
   },

@@ -13,7 +13,6 @@ export const PopularBooks = () => {
       return data?.books ?? [];
     }
   );
-  console.log(popularBooks);
   return (
     <Container>
       <header>

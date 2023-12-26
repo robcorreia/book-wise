@@ -52,7 +52,6 @@ export const RatingsDialog = ({ bookId, children }: RatingsDialogProps) => {
 
   const categories =
     book?.categories?.map((x) => x?.category?.name)?.join(", ") ?? "";
-  console.log(categories);
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -112,7 +111,7 @@ export const RatingsDialog = ({ bookId, children }: RatingsDialogProps) => {
                   />
                 </BookInfos>
               </BookDetailsWrapper>
-              <BookRatings ratings={book.ratings} />
+              <BookRatings bookId={bookId} ratings={book.ratings} />
             </>
           )}
         </DialogContent>
